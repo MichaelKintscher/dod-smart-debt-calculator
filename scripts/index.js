@@ -1,9 +1,25 @@
+/*
+ * =========================================================================
+ *      Window OnLoad
+ * =========================================================================
+ */
+
+window.onload = function () {
+
+    // Add a single award info block.
+    AddAwardInfoBlock();
+}
 
 /*
  * =========================================================================
  *      Event Handlers
  * =========================================================================
  */
+
+function addAward_OnClick(e) {
+    // Add a single award info block.
+    AddAwardInfoBlock();
+}
 
 function smartAwardInfo_OnSubmit(e)
 {
@@ -47,3 +63,15 @@ function smartAwardInfo_OnSubmit(e)
  *      Helper Functions
  * =========================================================================
  */
+
+function AddAwardInfoBlock() {
+    var awardsList = document.getElementById("AwardsList");
+
+    var awardFormTemplate = document.getElementById("AwardInfoFormTemplate");
+
+    // Update the IDs to ensure unique form element names.
+
+    var awardFormInstance = document.importNode(awardFormTemplate.content, true);
+
+    awardsList.appendChild(awardFormInstance);
+}
