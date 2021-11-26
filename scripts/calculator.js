@@ -11,4 +11,9 @@ class DebtCalculator {
         // Compound interest formula.
         return p * Math.pow(1 + (r / n), n * t);
     }
+
+    CalculateTotalDebt(yearsOwed, totalTuition, annualStipend, annualMisc, annualHealth) {
+
+        return totalTuition + yearsOwed * (annualStipend + annualMisc + annualHealth);
+    }
 }
