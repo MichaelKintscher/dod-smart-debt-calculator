@@ -65,13 +65,23 @@ function smartAwardInfo_OnSubmit(e)
  */
 
 function AddAwardInfoBlock() {
+    // Get a reference to the parent to add the new blocks as children of.
     var awardsList = document.getElementById("AwardsList");
 
+    // Get a reference to the template and make a copy.
     var awardFormTemplate = document.getElementById("AwardInfoFormTemplate");
-
-    // Update the IDs to ensure unique form element names.
-
     var awardFormInstance = document.importNode(awardFormTemplate.content, true);
 
+    // Determine how many awards currently exist.
+    awardCounter = awardsList.children.length;
+
+    // Update the IDs to ensure unique form element names.
+    //      The ID is equal to the number of awards prior to adding
+    //      the new award. This ensures award numbers are zero-indexed.
+    awardFormInstance.getElementById("awardTitle").innerHTML += (" " + awardCounter)
+    awardFormInstance.querySelectorAll("input").forEach(function (input) { input.id += awardCounter });
+    awardFormInstance.querySelectorAll("label").forEach(function (label) { label.htmlFor += awardCounter });
+
+    // Add the new award instance to the awards list.
     awardsList.appendChild(awardFormInstance);
 }
