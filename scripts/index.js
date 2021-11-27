@@ -21,6 +21,14 @@ function addAward_OnClick(e) {
     AddAwardInfoBlock();
 }
 
+function addInternship_OnClick(e) {
+    // Get the ID of the award to add the internship to.
+    var awardId = Number(e.srcElement.id.replace("AddInternshipButton", ""));
+
+    // Add a single internship info block.
+    AddInternshipInfoBlock(awardId);
+}
+
 function smartAwardInfo_OnSubmit(e)
 {
     // Initialize the variables.
@@ -81,7 +89,39 @@ function AddAwardInfoBlock() {
     awardFormInstance.getElementById("awardTitle").innerHTML += (" " + awardCounter)
     awardFormInstance.querySelectorAll("input").forEach(function (input) { input.id += awardCounter });
     awardFormInstance.querySelectorAll("label").forEach(function (label) { label.htmlFor += awardCounter });
+    awardFormInstance.getElementById("InternshipsList").id += awardCounter;
+
+    // Note that the internships list is initially empty, so the above does
+    //      not impact any of the internship elements.
+
+    // Wire up the event listener.
+    var button = awardFormInstance.getElementById("AddInternshipButton" + awardCounter);
+    button.addEventListener(
+        "click", addInternship_OnClick, false
+    );
 
     // Add the new award instance to the awards list.
     awardsList.appendChild(awardFormInstance);
+}
+
+function AddInternshipInfoBlock(awardId) {
+    // Get a reference to the parent to add the new blocks as children of.
+    var internshipsList = document.getElementById("InternshipsList" + awardId);
+
+    // Get a reference to the template and make a copy.
+    var internshipFormTemplate = document.getElementById("InternshipInfoFormTemplate");
+    var internshipFormInstance = document.importNode(internshipFormTemplate.content, true);
+
+    // Determine how many awards currently exist for the award.
+    internshipCounter = internshipsList.children.length;
+
+    // Update the IDs to ensure unique form element names.
+    //      The ID is equal to the number of awards prior to adding
+    //      the new award. This ensures award numbers are zero-indexed.
+    internshipFormInstance.getElementById("internshipTitle").innerHTML += (" " + awardId + "-" + internshipCounter)
+    internshipFormInstance.querySelectorAll("input").forEach(function (input) { input.id += awardId + "-" + internshipCounter });
+    internshipFormInstance.querySelectorAll("label").forEach(function (label) { label.htmlFor += awardId + "-" + internshipCounter });
+
+    // Add the new internship instance to the internships list.
+    internshipsList.appendChild(internshipFormInstance);
 }

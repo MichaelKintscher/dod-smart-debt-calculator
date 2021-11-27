@@ -8,36 +8,67 @@
 </head>
 
 <body>
-    <form onsubmit="return smartAwardInfo_OnSubmit(event)">
-        <div id="AwardsList">
+    <div>
+        <form onsubmit="return smartAwardInfo_OnSubmit(event)">
+            <div id="AwardsList">
 
-        </div>
+            </div>
 
-        <input id ="AddAwardButton" type="button" value="Add Award" onclick="addAward_OnClick(event)" />
+            <input id="AddAwardButton" type="button" value="Add Award" onclick="addAward_OnClick(event)" />
 
-        <input type="submit" value="Submit" />
-    </form>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
 
+    <!-- Template for the award info block. -->
     <template id="AwardInfoFormTemplate">
-        <div class="awardInfoBlock">
+        <div>
             <div>
                 <h1 id="awardTitle">SMART Award Info</h1>
             </div>
+            <div class="awardRow">
+                <div class="awardInfoFormContainer">
+                    <div class="awardInfoBlock">
+
+                        <label for="YearsOwedInput">Years Owed</label>
+                        <input id="YearsOwedInput" name="YearsOwedInput" type="number" step="any" />
+
+                        <label for="TotalTuitionInput">Total Tuition</label>
+                        <input id="TotalTuitionInput" name="TotalTuitionInput" type="number" step="any" />
+
+                        <label for="AnnualStipendInput">Annual Stipend</label>
+                        <input id="AnnualStipendInput" name="AnnualStipendInput" type="number" step="any" />
+
+                        <label for="AnnualMiscAllowanceInput">Annual Misc Allowance</label>
+                        <input id="AnnualMiscAllowanceInput" name="AnnualMiscAllowanceInput" type="number" step="any" />
+
+                        <label for="AnnualHealthInsuranceInput">Annual Health Insurance</label>
+                        <input id="AnnualHealthInsuranceInput" name="AnnualHealthInsuranceInput" type="number" step="any" />
+                    </div>
+                </div>
+                <div id="InternshipsList" class="internshipContainer">
+
+                </div>
+
+                <input id="AddInternshipButton" type="button" value="Add Internship" />
+            </div>
+        </div>
+    </template>
+
+    <template id="InternshipInfoFormTemplate">
+        <div class="internshipInfoBlock">
             <div>
-                <label for="YearsOwedInput">Years Owed</label>
-                <input id="YearsOwedInput" name="YearsOwedInput" type="number" step="any" />
+                <h2 id="internshipTitle">Internship Info</h2>
+            </div>
+            <div>
+                <label for="InternshipYearInput">Year</label>
+                <input id="InternshipYearInput" name="InternshipYearInput" type="number" step="any" />
 
-                <label for="TotalTuitionInput">Total Tuition</label>
-                <input id ="TotalTuitionInput" name="TotalTuitionInput" type="number" step="any" />
+                <label for="InternshipNumWeeksInput">Number of Weeks</label>
+                <input id="InternshipNumWeeksInput" name="InternshipNumWeeksInput" type="number" step="any" />
 
-                <label for="AnnualStipendInput">Annual Stipend</label>
-                <input id="AnnualStipendInput" name="AnnualStipendInput" type="number" step="any" />
-
-                <label for="AnnualMiscAllowanceInput">Annual Misc Allowance</label>
-                <input id="AnnualMiscAllowanceInput" name="AnnualMiscAllowanceInput" type="number" step="any" />
-
-                <label for="AnnualHealthInsuranceInput">Annual Health Insurance</label>
-                <input id="AnnualHealthInsuranceInput" name="AnnualHealthInsuranceInput" type="number" step="any" />
+                <label for="InternshipSupportPaymentInput">Weekly Support Payment</label>
+                <input id="InternshipSupportPaymentInput" name="InternshipSupportPaymentInput" type="number" step="any" />
             </div>
         </div>
     </template>
