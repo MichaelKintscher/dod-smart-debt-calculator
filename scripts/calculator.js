@@ -12,8 +12,33 @@ class DebtCalculator {
         return p * Math.pow(1 + (r / n), n * t);
     }
 
-    CalculateTotalDebt(yearsOwed, totalTuition, annualStipend, annualMisc, annualHealth) {
+    CalculateTotalDebt(awardInfoArray) {
 
-        return totalTuition + yearsOwed * (annualStipend + annualMisc + annualHealth);
+        // Initialize the total debt to zero.
+        var totalDebt = 0;
+
+        // Sum up the debt of each award.
+        for (var i = 0; i < awardInfoArray.length; i++)
+        {
+            totalDebt += this.CalculateAwardDebt(awardInfoArray[i]);
+        }
+
+        return totalDebt;
+    }
+
+    CalculateAwardDebt(awardInfo) {
+
+        return awardInfo.totalTuition + awardInfo.yearsOwed * (awardInfo.annualStipend + awardInfo.annualMisc + awardInfo.annualHealth);
+    }
+}
+
+// Contains info for award debt calculations.
+class SMARTAwardInfo {
+    constructor() {
+        this.yearsOwed = 0;
+        this.totalTuition = 0;
+        this.annualStipend = 0;
+        this.annualMisc = 0;
+        this.annualHealth = 0;
     }
 }

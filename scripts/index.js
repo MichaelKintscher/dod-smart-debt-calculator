@@ -32,36 +32,37 @@ function addInternship_OnClick(e) {
 function smartAwardInfo_OnSubmit(e)
 {
     // Initialize the variables.
-    var yearsOwed = 0;
-    var totalTuition = 0;
-    var annualStipend = 0;
-    var annualMisc = 0;
-    var annualHealth = 0;
-
+    var allAwardData = new Array();
     var result = 0;
 
     // Based on code at: https://stackoverflow.com/questions/3350247/how-to-prevent-form-from-being-submitted
     e.preventDefault();
 
-    try
-    {
+    // Determine how many awards currently exist.
+    var awardsList = document.getElementById("AwardsList");
+    var numOfAwards = awardsList.children.length;
+
+    // For each award listed...
+    for (var awardId = 0; awardId < numOfAwards; awardId++) {
         // Read the inputs.
-        yearsOwed = parseFloat(e.target.elements.YearsOwedInput.value);
-        totalTuition = parseFloat(e.target.elements.TotalTuitionInput.value);
-        annualStipend = parseFloat(e.target.elements.AnnualStipendInput.value);
-        annualMisc = parseFloat(e.target.elements.AnnualMiscAllowanceInput.value);
-        annualHealth = parseFloat(e.target.elements.AnnualHealthInsuranceInput.value);
+        let awardInfo = new SMARTAwardInfo();
+        try {
+            awardInfo = ReadAwardData(e.target.elements, awardId);
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
 
-        var calculator = new DebtCalculator();
-        result = calculator.CalculateTotalDebt(yearsOwed, totalTuition, annualStipend, annualMisc, annualHealth);
-    }
-    catch (e)
-    {
-        throw new Error(e.message);
+        // Add the award to the award data array.
+        allAwardData.push(awardInfo);
     }
 
-    var testMessage = "Result: " + yearsOwed + ", " + totalTuition + ", " + annualStipend + ", " + annualMisc + ", " + annualHealth + ", " + result;
-    alert(testMessage);
+    var calculator = new DebtCalculator();
+    result = calculator.CalculateTotalDebt(allAwardData);
+
+
+    //var testMessage = "Result: " + awardInfo.yearsOwed + ", " + awardInfo.totalTuition + ", " + awardInfo.annualStipend + ", " + awardInfo.annualMisc + ", " + awardInfo.annualHealth + ", " + result;
+    alert("Total debt owed: " + result);
 
     return false;
 }
@@ -124,4 +125,20 @@ function AddInternshipInfoBlock(awardId) {
 
     // Add the new internship instance to the internships list.
     internshipsList.appendChild(internshipFormInstance);
+}
+
+function ReadAwardData(formElements, awardId) {
+
+    // Initialize the variables.
+    let awardInfo = new SMARTAwardInfo();
+
+    // Read the inputs.
+    awardInfo.yearsOwed = parseFloat(formElements.namedItem("YearsOwedInput" + awardId).value);
+    awardInfo.totalTuition = parseFloat(formElements.namedItem("TotalTuitionInput" + awardId).value);
+    awardInfo.annualStipend = parseFloat(formElements.namedItem("AnnualStipendInput" + awardId).value);
+    awardInfo.annualMisc = parseFloat(formElements.namedItem("AnnualMiscAllowanceInput" + awardId).value);
+    awardInfo.annualHealth = parseFloat(formElements.namedItem("AnnualHealthInsuranceInput" + awardId).value);
+
+    // Return the award info object.
+    return awardInfo;
 }
