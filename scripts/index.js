@@ -139,6 +139,39 @@ function ReadAwardData(formElements, awardId) {
     awardInfo.annualMisc = parseFloat(formElements.namedItem("AnnualMiscAllowanceInput" + awardId).value);
     awardInfo.annualHealth = parseFloat(formElements.namedItem("AnnualHealthInsuranceInput" + awardId).value);
 
+    // Determine how many internships currently exist.
+    var internshipsList = document.getElementById("InternshipsList" + awardId);
+    var numOfInternships = internshipsList.children.length;
+
+    // For each internship listed...
+    for (var internshipId = 0; internshipId < numOfInternships; internshipId++) {
+        // Read the inputs.
+        let internshipInfo = new SMARTInternshipInfo();
+        try {
+            internshipInfo = ReadInternshipData(formElements, awardId, internshipId);
+        }
+        catch (err) {
+            throw new Error(err.message);
+        }
+
+        // Add the internship to the internship data array.
+        awardInfo.internships.push(internshipInfo);
+    }
+
     // Return the award info object.
     return awardInfo;
+}
+
+function ReadInternshipData(formElements, awardId, internshipId) {
+
+    // Initialize the variable.
+    let internshipInfo = new SMARTInternshipInfo();
+
+    // Read the inputs.
+    internshipInfo.year = parseFloat(formElements.namedItem("InternshipYearInput" + awardId + "-" + internshipId).value);
+    internshipInfo.numWeeks = parseFloat(formElements.namedItem("InternshipNumWeeksInput" + awardId + "-" + internshipId).value);
+    internshipInfo.supportPayment = parseFloat(formElements.namedItem("InternshipSupportPaymentInput" + awardId + "-" + internshipId).value);
+
+    // Return the internship info object.
+    return internshipInfo;
 }

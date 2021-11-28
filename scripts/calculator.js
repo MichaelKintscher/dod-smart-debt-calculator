@@ -28,7 +28,26 @@ class DebtCalculator {
 
     CalculateAwardDebt(awardInfo) {
 
-        return awardInfo.totalTuition + awardInfo.yearsOwed * (awardInfo.annualStipend + awardInfo.annualMisc + awardInfo.annualHealth);
+        var totalAwardDebt = 0;
+
+        // Add in the total value of the tuition.
+        totalAwardDebt += awardInfo.totalTuition;
+
+        // Add in the annual expenses times the number of years for the award.
+        totalAwardDebt += awardInfo.yearsOwed * (awardInfo.annualStipend + awardInfo.annualMisc + awardInfo.annualHealth);
+
+        // For each internship in the award...
+        for (var i = 0; i < awardInfo.internships.length; i++) {
+            // Add in the internship expense.
+            totalAwardDebt += this.CalculateInternshipDebt(awardInfo.internships[i]);
+        }
+
+        return totalAwardDebt;
+    }
+
+    CalculateInternshipDebt(internshipInfo) {
+        // Multiply the number of weeks by the weekly internship support payment.
+        return internshipInfo.numWeeks * internshipInfo.supportPayment;
     }
 }
 
@@ -40,5 +59,15 @@ class SMARTAwardInfo {
         this.annualStipend = 0;
         this.annualMisc = 0;
         this.annualHealth = 0;
+        this.internships = new Array();
+    }
+}
+
+// Contains info for internship calculations.
+class SMARTInternshipInfo {
+    constructor() {
+        this.year = 0;
+        this.numWeeks = 0;
+        this.supportPayment = 0;
     }
 }
